@@ -1,0 +1,312 @@
+import { Callout } from '@/components/docs/Callout';
+
+export const metadata = {
+  title: 'Search Location',
+  description: 'Search for locations and get geographic coordinates',
+};
+
+# Search Location
+
+The `search_location` tool searches for geographic locations and returns their coordinates, useful for precise weather queries.
+
+## Overview
+
+**Tool Name:** `search_location`
+**Coverage:** Worldwide
+**Data Source:** OpenStreetMap Nominatim
+**Cache Duration:** 24 hours
+**Results:** Up to 5 matching locations
+
+## Usage
+
+Claude uses this tool automatically when location names are ambiguous or when coordinates are explicitly requested.
+
+### Example Queries
+
+```
+"Find the coordinates for Central Park"
+"Where is Yosemite National Park?"
+"Latitude and longitude of the Eiffel Tower"
+"Search for Springfield" (returns multiple matches)
+"Find Tokyo Skytree location"
+```
+
+## Parameters
+
+### query (required)
+
+**Type:** `string`
+**Description:** Location name, landmark, address, or place
+
+The search accepts various query types:
+- **City names:** "Seattle", "Paris", "Tokyo"
+- **Landmarks:** "Golden Gate Bridge", "Big Ben"
+- **Addresses:** "1600 Pennsylvania Ave NW, Washington DC"
+- **Parks:** "Yellowstone National Park"
+- **Airports:** "LAX", "Heathrow Airport"
+- **Regions:** "Silicon Valley", "Napa Valley"
+
+<Callout type="info">
+  More specific queries return more accurate results. Include country or state for common city names.
+</Callout>
+
+### limit (optional)
+
+**Type:** `number`
+**Default:** `5`
+**Range:** 1-10
+
+Maximum number of results to return.
+
+## Response Data
+
+Each location result includes:
+
+### Basic Information
+- **Display Name:** Full formatted name of the location
+- **Type:** Location type (city, town, landmark, etc.)
+- **Class:** Geographic class (place, natural, building, etc.)
+
+### Coordinates
+- **Latitude:** Decimal degrees (-90 to 90)
+- **Longitude:** Decimal degrees (-180 to 180)
+
+### Address Components
+- **Country:** Country name
+- **Country Code:** ISO country code
+- **State/Region:** State or region name (if applicable)
+- **County:** County name (if applicable)
+- **City:** City name
+- **Postal Code:** ZIP/postal code (if applicable)
+
+### Bounding Box
+- **Min/Max Coordinates:** Geographic extent of the location
+
+## Example Response
+
+**User:** "Find the coordinates for Golden Gate Bridge"
+
+**Claude:** "I found the Golden Gate Bridge:
+
+**Location:** Golden Gate Bridge, San Francisco, California, United States
+
+**Coordinates:**
+- Latitude: 37.8199° N
+- Longitude: 122.4783° W
+
+**Type:** Bridge
+**Region:** San Francisco County, California
+
+Would you like me to get the current weather conditions or forecast for this location?"
+
+## Search Behavior
+
+### Single Result
+When only one clear match is found, Claude uses it automatically:
+
+```
+User: "Weather in Eiffel Tower"
+→ Finds "Eiffel Tower, Paris, France" automatically
+→ Returns weather for those coordinates
+```
+
+### Multiple Results
+When multiple locations match, Claude presents options:
+
+```
+User: "Weather in Springfield"
+→ Finds: Springfield, IL; Springfield, MA; Springfield, MO, etc.
+→ Claude: "I found several cities named Springfield. Which one?
+  1. Springfield, Illinois
+  2. Springfield, Massachusetts
+  3. Springfield, Missouri
+  ..."
+```
+
+<Callout type="info" title="Disambiguation">
+  For ambiguous queries, Claude will ask you to clarify which location you mean.
+</Callout>
+
+## Use Cases
+
+### Precise Location Queries
+```
+"Exact coordinates of my hotel"
+"Find the location of [landmark]"
+"Where exactly is [address]?"
+```
+
+### Location Verification
+```
+"Is that in the right city?"
+"Confirm the location of [place]"
+"What county is [city] in?"
+```
+
+### Planning & Navigation
+```
+"Location of the nearest airport to [city]"
+"Find [national park] coordinates"
+"Where is the stadium located?"
+```
+
+### Geographic Research
+```
+"What are the boundaries of [city]?"
+"Bounding box for [region]"
+"Geographic details of [location]"
+```
+
+## Location Types
+
+The search can find various location types:
+
+### Places
+- Cities, towns, villages
+- Neighborhoods, districts
+- Regions, states, countries
+
+### Landmarks
+- Monuments and memorials
+- Towers and buildings
+- Parks and recreation areas
+
+### Infrastructure
+- Airports and stations
+- Bridges and tunnels
+- Ports and harbors
+
+### Natural Features
+- Mountains and peaks
+- Lakes and rivers
+- Beaches and bays
+
+### Addresses
+- Street addresses
+- Postal codes
+- Coordinates
+
+## Search Quality
+
+### High Precision Results
+- Well-known landmarks
+- Major cities
+- Official place names
+- Complete addresses
+
+### Variable Results
+- Common place names (may return multiple matches)
+- Informal names (may not match)
+- Recent developments (may not be in database)
+- Very small locations (may not have records)
+
+<Callout type="info">
+  The search uses OpenStreetMap data, which is crowdsourced and may vary in completeness by region.
+</Callout>
+
+## Data Accuracy
+
+### Coordinate Precision
+- **Cities:** City center point
+- **Landmarks:** Structure location
+- **Addresses:** Building or plot location
+- **Regions:** Geographic center
+
+Precision: Typically accurate to within 10-100 meters for specific locations.
+
+### Address Completeness
+Varies by country and region:
+- **Excellent:** US, Canada, Western Europe, Japan
+- **Good:** Most developed countries
+- **Variable:** Developing regions, rural areas
+
+## Limitations
+
+- **Informal Names:** May not recognize colloquial place names
+- **New Developments:** Recently built locations may not be indexed
+- **Spelling:** Sensitive to spelling errors
+- **Language:** Works best with English or local language names
+- **Private Properties:** May not find private residences or businesses
+
+<Callout type="warning">
+  Search results depend on OpenStreetMap data quality, which varies by region. Always verify critical location information.
+</Callout>
+
+## Error Handling
+
+Common errors and solutions:
+
+**"No results found for query"**
+- Solution: Try a more general search term or check spelling
+
+**"Location is ambiguous"**
+- Solution: Add city, state, or country to the query
+
+**"Too many results"**
+- Solution: Be more specific with your query
+
+## Integration with Weather Tools
+
+Location search works seamlessly with weather tools:
+
+```
+User: "Weather at the Space Needle"
+1. Searches for "Space Needle" → finds Seattle coordinates
+2. Gets weather for those coordinates
+3. Returns: "Current weather at Space Needle, Seattle..."
+```
+
+Claude handles this workflow automatically - you don't need to search locations separately unless you want the coordinates specifically.
+
+## Related Tools
+
+- [Get Forecast](/docs/tools/get-forecast) - Uses coordinates for accurate forecasts
+- [Get Current Conditions](/docs/tools/get-current-conditions) - Uses coordinates for current weather
+- [Get Alerts](/docs/tools/get-alerts) - Uses location to find relevant alerts
+
+## Technical Details
+
+### Caching
+Location searches are heavily cached:
+- **Cache Key:** Normalized query string
+- **TTL:** 86400 seconds (24 hours)
+- **Rationale:** Location coordinates rarely change
+
+### Data Source
+- **Provider:** OpenStreetMap Nominatim
+- **API:** Nominatim geocoding API
+- **Rate Limits:** Respectful (max 1 request/second)
+- **Data:** Open-source geographic database
+
+### Search Algorithm
+1. **Query Normalization:** Clean and standardize input
+2. **Geocoding:** Search OpenStreetMap database
+3. **Result Ranking:** Sort by relevance and importance
+4. **Filtering:** Remove duplicates and low-quality results
+5. **Formatting:** Structure response for Claude
+
+## Privacy
+
+Location searches are:
+- **Not logged** (unless analytics are enabled)
+- **Not associated** with your identity
+- **Cached locally** to reduce API calls
+- **Processed server-side** (not sent to Claude/Anthropic)
+
+<Callout type="info">
+  Only the location name is sent to OpenStreetMap's geocoding service. No personal information is transmitted.
+</Callout>
+
+## Best Practices
+
+1. **Be Specific:** Include country or state for common names
+2. **Use Official Names:** Official place names work better than nicknames
+3. **Check Results:** Verify coordinates are correct before using
+4. **Format Addresses:** Use standard address format for best results
+5. **Landmarks:** Famous landmarks work better than obscure locations
+
+## Next Steps
+
+- [View API Reference](/docs/api-reference)
+- [Learn about Configuration](/docs/configuration)
+- [Browse Examples](/examples)

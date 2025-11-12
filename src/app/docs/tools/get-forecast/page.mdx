@@ -1,0 +1,204 @@
+import { Callout } from '@/components/docs/Callout';
+
+export const metadata = {
+  title: 'Get Forecast',
+  description: 'Get weather forecast data for any location',
+};
+
+# Get Forecast
+
+The `get_forecast` tool retrieves weather forecast data for a specified location. It provides hourly and daily forecasts including temperature, conditions, precipitation, wind, and more.
+
+## Overview
+
+**Tool Name:** `get_forecast`
+**Coverage:** Worldwide
+**Data Source:** NOAA (US) or Open-Meteo (International)
+**Cache Duration:** 30-60 minutes
+
+## Usage
+
+Claude automatically uses this tool when you ask about weather forecasts. You don't need to call it directly.
+
+### Example Queries
+
+```
+"What's the weather forecast for Seattle?"
+"Will it rain in Tokyo tomorrow?"
+"Show me the 7-day forecast for London"
+"What's the weather going to be like in Paris this weekend?"
+"Forecast for New York City next week"
+```
+
+## Parameters
+
+### location (required)
+
+**Type:** `string`
+**Description:** Location name, coordinates, or address
+
+The location can be specified in several formats:
+- **City name:** "Seattle", "Tokyo", "London"
+- **City and country:** "Paris, France", "Sydney, Australia"
+- **Coordinates:** "47.6062,-122.3321" (latitude,longitude)
+- **ZIP/Postal code:** "98101", "SW1A 1AA" (US zip codes only)
+
+<Callout type="info">
+  For best results, include the country or state for less common city names.
+</Callout>
+
+### days (optional)
+
+**Type:** `number`
+**Default:** `7`
+**Range:** 1-16 days
+
+Number of days to include in the forecast.
+
+```
+"3-day forecast for Miami"
+"Show me the next 10 days forecast for Denver"
+```
+
+<Callout type="warning">
+  Accuracy decreases for forecasts beyond 7 days. Use with caution for long-range planning.
+</Callout>
+
+## Response Data
+
+The forecast includes the following information:
+
+### Daily Forecast
+
+Each day includes:
+- **Date:** Forecast date
+- **High/Low Temperature:** In both Celsius and Fahrenheit
+- **Conditions:** Weather description (e.g., "Partly Cloudy", "Rain")
+- **Precipitation Chance:** Probability of precipitation (0-100%)
+- **Precipitation Amount:** Expected rainfall/snowfall
+- **Wind:** Speed and direction
+- **Humidity:** Relative humidity percentage
+- **UV Index:** UV radiation level (0-11+)
+
+### Hourly Forecast
+
+For the next 48 hours, includes:
+- **Time:** Hour of the forecast
+- **Temperature:** Hourly temperature
+- **Feels Like:** Apparent temperature
+- **Conditions:** Weather description
+- **Precipitation:** Chance and amount
+- **Wind:** Speed and direction
+- **Cloud Cover:** Percentage
+
+## Example Response
+
+When you ask for a forecast, Claude will present the data naturally:
+
+**User:** "What's the forecast for Seattle this week?"
+
+**Claude:** "Here's the 7-day forecast for Seattle, WA:
+
+**Tuesday, Nov 12**
+- High: 54°F (12°C), Low: 45°F (7°C)
+- Partly cloudy with a 30% chance of rain
+- Wind: NW 8 mph
+
+**Wednesday, Nov 13**
+- High: 52°F (11°C), Low: 43°F (6°C)
+- Rain likely, 70% chance
+- Wind: S 12 mph
+
+... (continues for remaining days)"
+
+## Data Accuracy
+
+### NOAA (US Locations)
+- **Accuracy:** Very high (official government source)
+- **Updates:** Hourly
+- **Resolution:** Hourly for 7 days, daily for 7 days
+- **Coverage:** United States, territories, coastal waters
+
+### Open-Meteo (International)
+- **Accuracy:** High (ensemble models from multiple sources)
+- **Updates:** Hourly
+- **Resolution:** Hourly for 7 days, daily for 16 days
+- **Coverage:** Worldwide
+
+<Callout type="info">
+  Weather MCP automatically selects the best data source based on location and availability.
+</Callout>
+
+## Use Cases
+
+### Travel Planning
+```
+"What will the weather be like in Hawaii next week?"
+"Should I pack an umbrella for my trip to London?"
+```
+
+### Event Planning
+```
+"Will it be sunny for the outdoor wedding in Austin on Saturday?"
+"What's the forecast for the marathon in Boston next month?"
+```
+
+### Daily Planning
+```
+"Do I need a jacket tomorrow?"
+"Will it rain during my commute today?"
+```
+
+### Outdoor Activities
+```
+"Is it a good day for hiking in Yosemite this weekend?"
+"What's the skiing forecast for Aspen?"
+```
+
+## Limitations
+
+- **Forecast Range:** Maximum 16 days (accuracy decreases after 7 days)
+- **Update Frequency:** Forecasts are cached for 30-60 minutes
+- **Historical Data:** This tool only provides future forecasts, not past weather
+- **Specific Times:** Forecasts are for general day/night, not specific minutes
+
+<Callout type="warning">
+  For severe weather situations, always check [official weather alerts](/docs/tools/get-alerts) and follow guidance from local authorities.
+</Callout>
+
+## Related Tools
+
+- [Get Current Conditions](/docs/tools/get-current-conditions) - Real-time weather data
+- [Get Alerts](/docs/tools/get-alerts) - Weather warnings and alerts
+- [Search Location](/docs/tools/search-location) - Find location coordinates
+
+## Technical Details
+
+### Caching
+Forecast data is cached based on location and request parameters:
+- **Cache Key:** Location + forecast days
+- **TTL:** 1800 seconds (30 minutes) by default
+- **Invalidation:** Automatic after TTL expires
+
+### Provider Selection
+1. **US Locations with NOAA token:** NOAA is preferred
+2. **International or no token:** Open-Meteo is used
+3. **Fallback:** If primary provider fails, secondary is tried automatically
+
+### Error Handling
+Common errors and their resolutions:
+
+**"Location not found"**
+- Solution: Be more specific with the location name or use coordinates
+
+**"Forecast unavailable"**
+- Solution: Try again in a few minutes, Weather MCP will retry with fallback provider
+
+**"Invalid forecast range"**
+- Solution: Request between 1-16 days
+
+## Next Steps
+
+- [View Current Conditions Tool](/docs/tools/get-current-conditions)
+- [Learn about Configuration](/docs/configuration)
+- [Browse Examples](/examples)

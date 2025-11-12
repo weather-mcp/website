@@ -1,0 +1,431 @@
+import { Callout } from '@/components/docs/Callout';
+
+export const metadata = {
+  title: 'Troubleshooting',
+  description: 'Common issues and solutions for Weather MCP',
+};
+
+# Troubleshooting
+
+This guide helps you resolve common issues with Weather MCP. If you don't find your issue here, please [open an issue on GitHub](https://github.com/dgahagan/weather-mcp/issues).
+
+## Installation Issues
+
+### Weather MCP Not Found
+
+**Symptom:** Claude says weather tools are unavailable or command not found
+
+**Solutions:**
+
+1. **Verify Installation**
+   ```bash
+   # Check if weather-mcp is installed
+   which weather-mcp  # macOS/Linux
+   where weather-mcp  # Windows
+   ```
+
+2. **Reinstall if Missing**
+   ```bash
+   npm install -g @weather-mcp/server
+   ```
+
+3. **Check Configuration Path**
+   Ensure `claude_desktop_config.json` has the correct command:
+   ```json
+   {
+     "mcpServers": {
+       "weather": {
+         "command": "weather-mcp"
+       }
+     }
+   }
+   ```
+
+4. **Try Full Path**
+   Use absolute path if global installation doesn't work:
+   ```json
+   {
+     "command": "/usr/local/bin/weather-mcp"  // macOS/Linux
+     "command": "C:\\Users\\YourName\\AppData\\Roaming\\npm\\weather-mcp.cmd"  // Windows
+   }
+   ```
+
+<Callout type="info">
+  After changing configuration, always restart Claude Desktop completely.
+</Callout>
+
+### Permission Denied
+
+**Symptom:** "EACCES" or "Permission denied" errors during installation
+
+**Solutions:**
+
+**macOS/Linux:**
+```bash
+# Don't use sudo! Instead, fix npm permissions:
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+
+# Then reinstall
+npm install -g @weather-mcp/server
+```
+
+**Windows:**
+- Run Command Prompt or PowerShell as Administrator
+- Or install without `-g` flag in a local directory
+
+### Configuration File Not Found
+
+**Symptom:** Can't find `claude_desktop_config.json`
+
+**Solutions:**
+
+Find the correct location for your OS:
+
+**macOS:**
+```bash
+~/Library/Application Support/Claude/claude_desktop_config.json
+```
+
+**Windows:**
+```
+%APPDATA%\Claude\claude_desktop_config.json
+```
+
+**Linux:**
+```bash
+~/.config/Claude/claude_desktop_config.json
+```
+
+If the file doesn't exist, create it:
+```json
+{
+  "mcpServers": {
+    "weather": {
+      "command": "weather-mcp"
+    }
+  }
+}
+```
+
+## Weather Data Issues
+
+### Location Not Found
+
+**Symptom:** "Could not find location: [query]"
+
+**Solutions:**
+
+1. **Be More Specific**
+   ```
+   Bad:  "Springfield"
+   Good: "Springfield, Illinois"
+   Better: "Springfield, IL, USA"
+   ```
+
+2. **Use Coordinates**
+   ```
+   "Weather at 42.3601,-71.0589"
+   ```
+
+3. **Check Spelling**
+   ```
+   Bad:  "Parris"
+   Good: "Paris"
+   ```
+
+4. **Try a Nearby City**
+   If a small town isn't found, use a nearby larger city
+
+### API Errors
+
+**Symptom:** "API Error" or "Service Unavailable"
+
+**Solutions:**
+
+1. **Check NOAA Token**
+   - Verify token is correct in configuration
+   - Check token hasn't expired at [NOAA Dashboard](https://www.weather.gov/documentation/services-web-api)
+   - Try regenerating token
+
+2. **Verify Token Format**
+   ```json
+   {
+     "env": {
+       "NOAA_API_TOKEN": "your-token-here"  // No quotes around the actual token
+     }
+   }
+   ```
+
+3. **Test Without Token**
+   Remove NOAA token temporarily - Weather MCP will use Open-Meteo:
+   ```json
+   {
+     "mcpServers": {
+       "weather": {
+         "command": "weather-mcp"
+         // Removed env section
+       }
+     }
+   }
+   ```
+
+4. **Wait and Retry**
+   Weather APIs may have temporary outages. Wait 5-10 minutes and try again.
+
+<Callout type="success">
+  Weather MCP automatically falls back to Open-Meteo if NOAA is unavailable.
+</Callout>
+
+### Stale or Incorrect Data
+
+**Symptom:** Weather data seems outdated or wrong
+
+**Solutions:**
+
+1. **Check Cache**
+   Data is cached for 5-60 minutes depending on type. Wait for cache to expire, or restart Claude Desktop to clear cache.
+
+2. **Verify Location**
+   Make sure the correct location was found:
+   ```
+   "What's the exact location you're using for Seattle?"
+   ```
+
+3. **Compare Sources**
+   Check if data matches the source:
+   - [NOAA](https://www.weather.gov/) for US locations
+   - [Open-Meteo](https://open-meteo.com/) for international
+
+4. **Check Observation Time**
+   Current conditions show when data was last observed (may be 10-30 minutes old)
+
+## Claude Desktop Issues
+
+### Changes Not Taking Effect
+
+**Symptom:** Modified configuration but nothing changed
+
+**Solutions:**
+
+1. **Completely Quit Claude Desktop**
+   - Don't just close the window
+   - Quit from menu or system tray
+   - Wait 5 seconds
+
+2. **Restart Claude Desktop**
+   - Launch the application fresh
+
+3. **Verify Configuration**
+   Check JSON syntax is valid:
+   ```bash
+   # Test JSON validity
+   cat ~/Library/Application\ Support/Claude/claude_desktop_config.json | python3 -m json.tool
+   ```
+
+4. **Check for Typos**
+   Common mistakes:
+   - Missing commas
+   - Extra commas after last item
+   - Mismatched quotes
+   - Incorrect property names
+
+### MCP Server Crash
+
+**Symptom:** Weather tools stop working during a session
+
+**Solutions:**
+
+1. **Check Logs**
+
+   **macOS/Linux:**
+   ```bash
+   tail -f ~/Library/Logs/Claude/mcp*.log
+   ```
+
+   **Windows:**
+   ```powershell
+   Get-Content "$env:LOCALAPPDATA\Claude\logs\mcp*.log" -Wait
+   ```
+
+2. **Look for Errors**
+   Common crash causes:
+   - Network connectivity issues
+   - Invalid API token
+   - Rate limiting
+
+3. **Restart Claude Desktop**
+   MCP servers restart when Claude Desktop restarts
+
+## Performance Issues
+
+### Slow Response Times
+
+**Symptom:** Weather requests take a long time
+
+**Solutions:**
+
+1. **Check Network Connection**
+   Weather MCP requires internet access
+
+2. **Monitor Response Times**
+   First request is always slower (not cached). Subsequent requests should be faster.
+
+3. **Adjust Cache Settings**
+   Increase cache TTL in configuration:
+   ```json
+   {
+     "env": {
+       "CACHE_TTL": "3600"  // 1 hour
+     }
+   }
+   ```
+
+4. **Check Provider Status**
+   - [NOAA Status](https://www.weather.gov/)
+   - [Open-Meteo Status](https://open-meteo.com/)
+
+### High Memory Usage
+
+**Symptom:** Weather MCP using excessive memory
+
+**Solutions:**
+
+1. **Clear Cache**
+   Restart Claude Desktop to clear in-memory cache
+
+2. **Reduce Cache Size**
+   Lower cache TTL:
+   ```json
+   {
+     "env": {
+       "CACHE_TTL": "300"  // 5 minutes
+     }
+   }
+   ```
+
+3. **Update to Latest Version**
+   ```bash
+   npm update -g @weather-mcp/server
+   ```
+
+## Debugging
+
+### Enable Debug Logging
+
+Get detailed logs for troubleshooting:
+
+```json
+{
+  "env": {
+    "LOG_LEVEL": "debug"
+  }
+}
+```
+
+Restart Claude Desktop and check logs.
+
+### Test Weather MCP Directly
+
+Test outside of Claude Desktop:
+
+```bash
+# This requires manual MCP protocol interaction
+# Usually not necessary for end users
+```
+
+### Verify Network Connectivity
+
+Test API endpoints:
+
+```bash
+# Test NOAA (requires token)
+curl -H "User-Agent: WeatherMCP" "https://api.weather.gov/points/39.7456,-97.0892"
+
+# Test Open-Meteo
+curl "https://api.open-meteo.com/v1/forecast?latitude=39.7456&longitude=-97.0892&current_weather=true"
+```
+
+## Common Error Messages
+
+### "NOAA token required"
+
+**Cause:** Trying to get US weather alerts without a NOAA token
+
+**Solution:** [Get a free NOAA token](/docs/installation#step-1-get-your-noaa-api-token) and add it to your configuration
+
+### "Rate limit exceeded"
+
+**Cause:** Too many requests in a short time
+
+**Solution:** Wait a few minutes. Weather MCP caching should prevent this in normal use.
+
+### "Invalid coordinates"
+
+**Cause:** Latitude/longitude out of range
+
+**Solution:** Ensure latitude is between -90 and 90, longitude between -180 and 180
+
+### "Weather alerts not available"
+
+**Cause:** Either location is outside the US or no NOAA token configured
+
+**Solution:** Weather alerts only work for US locations with a NOAA token
+
+## Getting Help
+
+If you can't resolve your issue:
+
+1. **Check Logs**
+   Look for specific error messages in Claude Desktop logs
+
+2. **Search GitHub Issues**
+   [Existing issues](https://github.com/dgahagan/weather-mcp/issues) may have solutions
+
+3. **Open a New Issue**
+   Include:
+   - Weather MCP version (`weather-mcp --version`)
+   - Operating system
+   - Configuration (remove sensitive tokens)
+   - Error messages
+   - Steps to reproduce
+
+4. **Community Help**
+   Discuss in [GitHub Discussions](https://github.com/dgahagan/weather-mcp/discussions)
+
+<Callout type="info" title="Reporting Bugs">
+  When reporting issues, please include your Weather MCP version and OS. Never share your API tokens publicly.
+</Callout>
+
+## Prevention Tips
+
+1. **Keep Updated**
+   ```bash
+   npm update -g @weather-mcp/server
+   ```
+
+2. **Validate Configuration**
+   Use a JSON validator for configuration files
+
+3. **Monitor Logs**
+   Periodically check logs for warnings
+
+4. **Test After Updates**
+   After updating Claude Desktop or Weather MCP, test basic functionality
+
+5. **Backup Configuration**
+   Keep a copy of your working `claude_desktop_config.json`
+
+## Still Need Help?
+
+- **Documentation:** [weather-mcp.dev/docs](/docs)
+- **GitHub Issues:** [Report a bug](https://github.com/dgahagan/weather-mcp/issues/new)
+- **Discussions:** [Ask the community](https://github.com/dgahagan/weather-mcp/discussions)
+
+## Next Steps
+
+- [View Installation Guide](/docs/installation)
+- [Check Configuration Options](/docs/configuration)
+- [Read API Reference](/docs/api-reference)

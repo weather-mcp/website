@@ -1,0 +1,156 @@
+import { Callout } from '@/components/docs/Callout';
+import { CodeBlock } from '@/components/docs/CodeBlock';
+
+export const metadata = {
+  title: 'Installation',
+  description: 'Detailed installation guide for Weather MCP server',
+};
+
+# Installation
+
+This guide will walk you through installing and configuring the Weather MCP server for use with Claude Desktop.
+
+## Prerequisites
+
+Before installing Weather MCP, ensure you have the following:
+
+- **Node.js 18 or later** - [Download Node.js](https://nodejs.org/)
+- **Claude Desktop** - [Download Claude Desktop](https://claude.ai/download)
+- **NOAA API Token** (optional but recommended) - [Get a free token](https://www.weather.gov/documentation/services-web-api)
+
+<Callout type="info">
+  Weather MCP works without a NOAA API token by falling back to Open-Meteo, but getting a token is recommended for the best experience.
+</Callout>
+
+## Installation Methods
+
+### Method 1: Global Installation (Recommended)
+
+Install Weather MCP globally using npm:
+
+```bash
+npm install -g @weather-mcp/server
+```
+
+Verify the installation:
+
+```bash
+weather-mcp --version
+```
+
+### Method 2: npx (No Installation Required)
+
+You can run Weather MCP directly without installing it:
+
+```bash
+npx @weather-mcp/server
+```
+
+This method is useful for testing, but global installation is recommended for regular use.
+
+## Configuration
+
+### Step 1: Get Your NOAA API Token
+
+1. Visit [NOAA API Registration](https://www.weather.gov/documentation/services-web-api)
+2. Sign up for a free account
+3. Verify your email address
+4. Copy your API token from the dashboard
+
+<Callout type="warning">
+  Keep your API token secure! Never commit it to version control or share it publicly.
+</Callout>
+
+### Step 2: Configure Claude Desktop
+
+Add Weather MCP to your Claude Desktop configuration:
+
+**macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+**Linux:** `~/.config/Claude/claude_desktop_config.json`
+
+Add the following configuration:
+
+```json
+{
+  "mcpServers": {
+    "weather": {
+      "command": "weather-mcp",
+      "env": {
+        "NOAA_API_TOKEN": "your-noaa-api-token-here"
+      }
+    }
+  }
+}
+```
+
+<Callout type="info" title="Optional: Enable Analytics">
+  To help improve Weather MCP by sending anonymous usage analytics, add:
+  ```json
+  "ENABLE_ANALYTICS": "true"
+  ```
+</Callout>
+
+### Step 3: Restart Claude Desktop
+
+After updating the configuration file:
+
+1. Completely quit Claude Desktop
+2. Restart the application
+3. Weather MCP tools should now be available
+
+## Verification
+
+To verify Weather MCP is working correctly, try asking Claude:
+
+> "What's the weather forecast for Seattle?"
+
+Claude should respond with current weather data from the Weather MCP server.
+
+## Troubleshooting
+
+### Weather MCP Not Found
+
+If Claude says the weather tools are unavailable:
+
+1. Verify the installation: `which weather-mcp` (macOS/Linux) or `where weather-mcp` (Windows)
+2. Check that the path in `claude_desktop_config.json` is correct
+3. Ensure you've restarted Claude Desktop
+
+### API Errors
+
+If you're getting API errors:
+
+1. Verify your NOAA API token is correct
+2. Check that your token is active at [NOAA API Dashboard](https://www.weather.gov/documentation/services-web-api)
+3. Try removing the token temporarily - Weather MCP will use Open-Meteo as a fallback
+
+### Configuration File Not Found
+
+If you can't find the configuration file:
+
+1. Create the directory if it doesn't exist
+2. Create a new `claude_desktop_config.json` file
+3. Add the configuration shown above
+
+<Callout type="success">
+  Need more help? Check the [Troubleshooting Guide](/docs/troubleshooting) or [open an issue on GitHub](https://github.com/dgahagan/weather-mcp/issues).
+</Callout>
+
+## Next Steps
+
+- [Learn about Configuration Options](/docs/configuration)
+- [Explore Available Tools](/docs/api-reference)
+- [View Example Queries](/examples)
+
+## Updating
+
+To update Weather MCP to the latest version:
+
+```bash
+npm update -g @weather-mcp/server
+```
+
+Or if using npx, you'll automatically get the latest version each time you run it.
