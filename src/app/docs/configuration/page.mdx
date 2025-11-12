@@ -1,0 +1,237 @@
+import { Callout } from '@/components/docs/Callout';
+
+export const metadata = {
+  title: 'Configuration',
+  description: 'Environment variables and configuration options for Weather MCP',
+};
+
+# Configuration
+
+Weather MCP can be customized using environment variables in your Claude Desktop configuration file.
+
+## Environment Variables
+
+### NOAA_API_TOKEN
+
+**Type:** `string`
+**Required:** No
+**Default:** None
+
+Your NOAA API token for accessing weather data from the National Weather Service.
+
+```json
+{
+  "mcpServers": {
+    "weather": {
+      "command": "weather-mcp",
+      "env": {
+        "NOAA_API_TOKEN": "your-token-here"
+      }
+    }
+  }
+}
+```
+
+<Callout type="info">
+  Without a NOAA token, Weather MCP automatically uses Open-Meteo as the weather data provider.
+</Callout>
+
+### ENABLE_ANALYTICS
+
+**Type:** `boolean`
+**Required:** No
+**Default:** `false`
+
+Enable anonymous usage analytics to help improve Weather MCP.
+
+```json
+{
+  "env": {
+    "ENABLE_ANALYTICS": "true"
+  }
+}
+```
+
+**What we collect:**
+- Tool usage counts (which tools are called)
+- Response times and success rates
+- Error types (no error details or user data)
+- Anonymous installation ID
+
+**What we DON'T collect:**
+- Location searches or coordinates
+- Weather data requests
+- Any personally identifiable information
+- User prompts or conversations
+
+<Callout type="success" title="Privacy First">
+  Analytics are completely optional and disabled by default. See our [Privacy Policy](/docs/privacy) for full details.
+</Callout>
+
+### CACHE_TTL
+
+**Type:** `number`
+**Required:** No
+**Default:** `300` (5 minutes)
+
+Time-to-live for cached weather data in seconds. Weather data is cached to reduce API calls and improve response times.
+
+```json
+{
+  "env": {
+    "CACHE_TTL": "600"
+  }
+}
+```
+
+**Recommended values:**
+- **Current conditions:** 300-600 seconds (5-10 minutes)
+- **Forecasts:** 1800-3600 seconds (30-60 minutes)
+- **Alerts:** 300 seconds (5 minutes)
+
+<Callout type="warning">
+  Setting CACHE_TTL too low may result in rate limiting from weather providers. Setting it too high may result in stale data.
+</Callout>
+
+### LOG_LEVEL
+
+**Type:** `string`
+**Required:** No
+**Default:** `info`
+
+Control the verbosity of logging output.
+
+```json
+{
+  "env": {
+    "LOG_LEVEL": "debug"
+  }
+}
+```
+
+**Available levels:**
+- `error` - Only log errors
+- `warn` - Errors and warnings
+- `info` - General information (recommended)
+- `debug` - Detailed debugging information
+- `trace` - Very verbose output
+
+### PREFERRED_PROVIDER
+
+**Type:** `string`
+**Required:** No
+**Default:** `auto`
+
+Choose which weather data provider to prefer.
+
+```json
+{
+  "env": {
+    "PREFERRED_PROVIDER": "noaa"
+  }
+}
+```
+
+**Options:**
+- `auto` - Automatically select based on location and availability
+- `noaa` - Prefer NOAA (requires API token, US locations only)
+- `openmeteo` - Prefer Open-Meteo (worldwide coverage, no token required)
+
+<Callout type="info">
+  If the preferred provider is unavailable for a location, Weather MCP will automatically fall back to the alternative.
+</Callout>
+
+## Complete Configuration Example
+
+Here's a complete configuration example with all options:
+
+```json
+{
+  "mcpServers": {
+    "weather": {
+      "command": "weather-mcp",
+      "env": {
+        "NOAA_API_TOKEN": "your-noaa-token",
+        "ENABLE_ANALYTICS": "true",
+        "CACHE_TTL": "600",
+        "LOG_LEVEL": "info",
+        "PREFERRED_PROVIDER": "auto"
+      }
+    }
+  }
+}
+```
+
+## Provider-Specific Configuration
+
+### NOAA Configuration
+
+NOAA provides highly accurate weather data for United States locations:
+
+- **Coverage:** United States only
+- **Token Required:** Yes (free)
+- **Rate Limits:** Generous (typically sufficient for personal use)
+- **Data Quality:** Excellent (official government source)
+
+**Get your token:** [NOAA API Registration](https://www.weather.gov/documentation/services-web-api)
+
+### Open-Meteo Configuration
+
+Open-Meteo provides global weather coverage:
+
+- **Coverage:** Worldwide
+- **Token Required:** No
+- **Rate Limits:** Generous for non-commercial use
+- **Data Quality:** Very good (uses multiple data sources)
+
+No additional configuration needed - works out of the box.
+
+## Advanced Configuration
+
+### Custom Cache Directory
+
+By default, Weather MCP stores cache files in your system's temp directory. To specify a custom location:
+
+```json
+{
+  "env": {
+    "CACHE_DIR": "/path/to/custom/cache"
+  }
+}
+```
+
+### Disable Caching
+
+To disable caching entirely (not recommended):
+
+```json
+{
+  "env": {
+    "CACHE_TTL": "0"
+  }
+}
+```
+
+<Callout type="warning">
+  Disabling caching will increase API calls and may result in slower response times or rate limiting.
+</Callout>
+
+## Validation
+
+After updating your configuration, Weather MCP will validate the settings on startup. Check Claude Desktop's logs if you encounter issues:
+
+**macOS/Linux:**
+```bash
+tail -f ~/Library/Logs/Claude/mcp*.log
+```
+
+**Windows:**
+```powershell
+Get-Content "$env:LOCALAPPDATA\Claude\logs\mcp*.log" -Wait
+```
+
+## Next Steps
+
+- [View API Reference](/docs/api-reference)
+- [Explore Available Tools](/docs/tools/get-forecast)
+- [Learn about Privacy & Analytics](/docs/privacy)

@@ -1,0 +1,241 @@
+import { Callout } from '@/components/docs/Callout';
+
+export const metadata = {
+  title: 'Get Current Conditions',
+  description: 'Get real-time current weather conditions for any location',
+};
+
+# Get Current Conditions
+
+The `get_current_conditions` tool retrieves current weather conditions for a specified location in real-time.
+
+## Overview
+
+**Tool Name:** `get_current_conditions`
+**Coverage:** Worldwide
+**Data Source:** NOAA (US) or Open-Meteo (International)
+**Cache Duration:** 5-10 minutes
+**Update Frequency:** Every 10-30 minutes (varies by location)
+
+## Usage
+
+Claude automatically uses this tool when you ask about current weather. You don't need to call it directly.
+
+### Example Queries
+
+```
+"What's the current weather in Seattle?"
+"Is it raining in Tokyo right now?"
+"Current temperature in London"
+"What are the conditions in Miami?"
+"How's the weather in Sydney at the moment?"
+```
+
+## Parameters
+
+### location (required)
+
+**Type:** `string`
+**Description:** Location name, coordinates, or address
+
+The location can be specified in several formats:
+- **City name:** "Seattle", "Tokyo", "London"
+- **City and country:** "Paris, France", "Sydney, Australia"
+- **Coordinates:** "47.6062,-122.3321" (latitude,longitude)
+- **ZIP/Postal code:** "98101" (US only)
+
+<Callout type="info">
+  Current conditions are updated every 10-30 minutes depending on the weather station and provider.
+</Callout>
+
+## Response Data
+
+Current conditions include:
+
+### Temperature
+- **Current Temperature:** In both Celsius and Fahrenheit
+- **Feels Like:** Apparent temperature accounting for wind chill or heat index
+
+### Atmospheric Conditions
+- **Weather Description:** Clear, cloudy, rainy, snowy, etc.
+- **Pressure:** Atmospheric pressure in millibars or inches of mercury
+- **Humidity:** Relative humidity percentage (0-100%)
+- **Dew Point:** Temperature at which dew forms
+
+### Wind
+- **Speed:** Current wind speed in mph or km/h
+- **Direction:** Cardinal direction (N, NE, E, SE, S, SW, W, NW)
+- **Gusts:** Wind gust speed if significant
+
+### Visibility
+- **Visibility Distance:** How far you can see (in miles or kilometers)
+
+### Precipitation
+- **Current Precipitation:** If actively raining/snowing
+- **Recent Precipitation:** Amount in the last hour
+
+### Sky Conditions
+- **Cloud Cover:** Percentage of sky covered by clouds
+- **Condition:** Clear, partly cloudy, overcast, etc.
+
+### Observation Details
+- **Observation Time:** When the data was recorded
+- **Station:** Weather station providing the data
+
+## Example Response
+
+**User:** "What's the current weather in Seattle?"
+
+**Claude:** "Current conditions in Seattle, WA (as of 2:45 PM PST):
+
+**Temperature:** 52°F (11°C)
+**Feels Like:** 48°F (9°C)
+**Conditions:** Partly Cloudy
+**Humidity:** 68%
+**Wind:** NW at 12 mph
+**Pressure:** 30.12 in (1019 mb)
+**Visibility:** 10 miles
+
+The observation was taken 15 minutes ago from Seattle-Tacoma International Airport weather station."
+
+## Data Sources
+
+### NOAA (US Locations)
+- **Coverage:** United States, territories, coastal waters
+- **Update Frequency:** 10-30 minutes
+- **Data Quality:** Very high (direct weather station observations)
+- **Stations:** Over 1,700 automated stations
+
+### Open-Meteo (International)
+- **Coverage:** Worldwide
+- **Update Frequency:** 15-30 minutes
+- **Data Quality:** High (combines multiple data sources)
+- **Resolution:** Nearest weather station or model grid point
+
+<Callout type="info">
+  Weather MCP automatically selects the best data source based on location.
+</Callout>
+
+## Use Cases
+
+### Quick Weather Checks
+```
+"Do I need an umbrella right now?"
+"Is it warm enough for shorts?"
+"Current temperature at my location"
+```
+
+### Travel Decisions
+```
+"What's the weather like at the airport?"
+"Are conditions good for driving?"
+"Current visibility for flying"
+```
+
+### Outdoor Activities
+```
+"Is it good weather for a run?"
+"Current conditions at the beach"
+"How windy is it for sailing?"
+```
+
+### Weather Monitoring
+```
+"Has the rain started yet?"
+"Did the temperature drop?"
+"Is it still cloudy?"
+```
+
+## Accuracy & Timeliness
+
+### Observation Age
+Current conditions typically reflect observations from:
+- **Major airports:** 10-20 minutes ago
+- **Urban stations:** 15-30 minutes ago
+- **Rural stations:** 30-60 minutes ago
+
+<Callout type="warning">
+  The "current" conditions may be 10-30 minutes old depending on the nearest weather station's update schedule.
+</Callout>
+
+### Location Precision
+Data comes from the nearest weather station, which may be:
+- **Urban areas:** Within 1-5 miles
+- **Rural areas:** Within 10-20 miles
+- **Remote areas:** Interpolated from model data
+
+Local microclimates may differ from the reported conditions.
+
+## Comparison with Forecast
+
+**Current Conditions** shows what the weather is *right now*.
+**Forecast** shows what the weather *will be* in the future.
+
+```
+Current: "It's 52°F and partly cloudy"
+Forecast: "It will be 48°F tonight with a 70% chance of rain"
+```
+
+<Callout type="info">
+  For immediate planning, use current conditions. For future planning, use the [forecast tool](/docs/tools/get-forecast).
+</Callout>
+
+## Limitations
+
+- **Update Delay:** Data may be 10-30 minutes old
+- **Station Distance:** Conditions reflect nearest weather station, not exact location
+- **Microclimates:** Local variations may not be captured
+- **Historical Data:** This tool only provides current conditions, not past weather
+
+## Error Handling
+
+Common errors and solutions:
+
+**"Location not found"**
+- Solution: Use a more specific location name or coordinates
+
+**"No recent observations available"**
+- Solution: Try a nearby larger city or airport
+
+**"Station temporarily offline"**
+- Solution: Weather MCP automatically tries alternative stations
+
+## Related Tools
+
+- [Get Forecast](/docs/tools/get-forecast) - Future weather predictions
+- [Get Alerts](/docs/tools/get-alerts) - Active weather warnings
+- [Search Location](/docs/tools/search-location) - Find location coordinates
+
+## Technical Details
+
+### Caching
+Current conditions are cached briefly to reduce API calls:
+- **Cache Key:** Location coordinates
+- **TTL:** 300-600 seconds (5-10 minutes)
+- **Rationale:** Weather stations update every 10-30 minutes, so caching doesn't reduce data freshness
+
+### Data Processing
+1. **Location Resolution:** Convert location name to coordinates
+2. **Station Selection:** Find nearest weather station
+3. **Data Retrieval:** Fetch observation from provider API
+4. **Unit Conversion:** Convert to both metric and imperial units
+5. **Response Formatting:** Structure data for Claude's presentation
+
+### Provider Fallback
+If the primary provider fails:
+1. Try alternative provider automatically
+2. If both fail, return cached data (if available)
+3. If no cache, return error with retry suggestion
+
+## Best Practices
+
+1. **Be Specific:** Include city and state/country for best results
+2. **Check Recency:** Note the observation time in Claude's response
+3. **Compare Sources:** For critical decisions, verify with multiple sources
+4. **Use Alerts:** Always check [weather alerts](/docs/tools/get-alerts) for severe conditions
+
+## Next Steps
+
+- [View Forecast Tool](/docs/tools/get-forecast)
+- [Learn about Weather Alerts](/docs/tools/get-alerts)
+- [Configure Weather MCP](/docs/configuration)

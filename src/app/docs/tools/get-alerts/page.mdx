@@ -1,0 +1,277 @@
+import { Callout } from '@/components/docs/Callout';
+
+export const metadata = {
+  title: 'Get Weather Alerts',
+  description: 'Get active weather warnings, watches, and advisories',
+};
+
+# Get Weather Alerts
+
+The `get_alerts` tool retrieves active weather alerts, warnings, watches, and advisories issued by the National Weather Service.
+
+## Overview
+
+**Tool Name:** `get_alerts`
+**Coverage:** United States only (NOAA)
+**Data Source:** NOAA National Weather Service
+**Cache Duration:** 5 minutes
+**Update Frequency:** Real-time as alerts are issued
+
+<Callout type="warning" title="US Only">
+  Weather alerts are currently only available for United States locations. A NOAA API token is required for this tool to function.
+</Callout>
+
+## Usage
+
+Claude automatically uses this tool when you ask about weather alerts or warnings.
+
+### Example Queries
+
+```
+"Are there any weather alerts in Florida?"
+"Show weather warnings for Texas"
+"Active weather alerts in Seattle"
+"Any severe weather warnings in my area?"
+"Storm warnings for the Gulf Coast"
+```
+
+## Parameters
+
+### location (required)
+
+**Type:** `string`
+**Description:** US location (city, state, ZIP, or coordinates)
+
+The location must be within the United States:
+- **City and state:** "Seattle, WA", "Miami, Florida"
+- **ZIP code:** "98101", "33101"
+- **Coordinates:** "47.6062,-122.3321"
+- **Region:** "Texas", "Florida"
+
+<Callout type="info">
+  Alerts are issued for specific counties or zones. Weather MCP will show all alerts affecting the requested location.
+</Callout>
+
+## Alert Types
+
+### Warnings (Immediate Threat)
+Life-threatening weather is occurring or imminent. Take action immediately.
+
+- **Tornado Warning** - Tornado detected or imminent
+- **Severe Thunderstorm Warning** - Dangerous thunderstorm approaching
+- **Flash Flood Warning** - Flash flooding occurring or imminent
+- **Hurricane Warning** - Hurricane conditions expected within 36 hours
+- **Winter Storm Warning** - Severe winter weather imminent
+
+### Watches (Potential Threat)
+Conditions are favorable for dangerous weather. Be prepared to take action.
+
+- **Tornado Watch** - Conditions favorable for tornadoes
+- **Severe Thunderstorm Watch** - Severe storms possible
+- **Flood Watch** - Flooding possible
+- **Winter Storm Watch** - Severe winter weather possible
+- **Hurricane Watch** - Hurricane conditions possible within 48 hours
+
+### Advisories (Minor Impacts)
+Weather conditions may cause inconvenience or minor impacts.
+
+- **Wind Advisory** - Strong winds expected
+- **Heat Advisory** - Dangerously hot conditions
+- **Winter Weather Advisory** - Minor winter weather impacts
+- **Frost Advisory** - Frost expected
+- **Air Quality Advisory** - Poor air quality
+
+### Statements
+Informational updates about ongoing or ended events.
+
+- **Special Weather Statement** - Notable weather not meeting warning criteria
+- **Marine Statement** - Information for marine interests
+
+## Response Data
+
+Each alert includes:
+
+### Alert Details
+- **Event Type:** Type of alert (Warning, Watch, Advisory)
+- **Severity:** Extreme, Severe, Moderate, Minor
+- **Urgency:** Immediate, Expected, Future
+- **Certainty:** Observed, Likely, Possible
+
+### Description
+- **Headline:** Brief summary of the alert
+- **Description:** Detailed information about the weather threat
+- **Instruction:** What actions to take
+
+### Timing
+- **Effective Time:** When alert begins
+- **Onset Time:** When weather event is expected
+- **Expires Time:** When alert ends
+
+### Location
+- **Affected Areas:** Counties or zones under alert
+- **Geographic Extent:** Polygon or point coverage
+
+## Example Response
+
+**User:** "Are there any weather alerts in Miami?"
+
+**Claude:** "Yes, there are 2 active weather alerts for Miami, FL:
+
+**1. Flood Warning (Severe)**
+- **Effective:** Nov 12, 2:00 PM EST
+- **Expires:** Nov 13, 2:00 AM EST
+- **Areas:** Miami-Dade County
+
+Heavy rainfall has caused flooding in low-lying areas. Avoid driving through flooded roads. Water levels are expected to remain high through tonight.
+
+**2. Wind Advisory (Moderate)**
+- **Effective:** Nov 12, 6:00 PM EST
+- **Expires:** Nov 13, 6:00 AM EST
+- **Areas:** Coastal Miami-Dade County
+
+Southwest winds 25 to 35 mph with gusts up to 50 mph expected this evening. Secure loose outdoor objects and use caution if driving a high-profile vehicle."
+
+## Use Cases
+
+### Safety Planning
+```
+"Any severe weather warnings I should know about?"
+"Is it safe to travel to Houston today?"
+"Are there tornado warnings in Oklahoma?"
+```
+
+### Event Planning
+```
+"Weather alerts for the outdoor concert venue"
+"Any warnings that would affect the game?"
+```
+
+### Travel Safety
+```
+"Weather advisories along I-95 corridor"
+"Any winter weather warnings for my route?"
+```
+
+### Emergency Preparedness
+```
+"Hurricane warnings for the Florida Keys"
+"Flood warnings in my county"
+"Heat advisories in Phoenix"
+```
+
+## Alert Severity Levels
+
+### Extreme (Red)
+- Life-threatening situation
+- Take immediate action
+- Examples: Tornado Warning, Flash Flood Warning
+
+### Severe (Orange)
+- Dangerous conditions
+- Take action soon
+- Examples: Severe Thunderstorm Warning, Winter Storm Warning
+
+### Moderate (Yellow)
+- Potentially hazardous
+- Be prepared
+- Examples: Flood Watch, Wind Advisory
+
+### Minor (Blue)
+- Minor inconvenience
+- Stay informed
+- Examples: Frost Advisory, Special Weather Statement
+
+<Callout type="error" title="Emergency Alerts">
+  For life-threatening weather, always follow instructions from local emergency management. Weather MCP provides information but should not replace official emergency communications.
+</Callout>
+
+## Data Accuracy & Timeliness
+
+### Real-Time Updates
+- **Issue Time:** Alerts appear within seconds of NWS issuance
+- **Updates:** Alerts are updated as NWS issues new information
+- **Cancellations:** Expired or cancelled alerts are removed immediately
+
+### Coverage
+- **All US States and Territories:** Complete coverage
+- **Marine Areas:** Coastal and offshore waters
+- **Special Zones:** NWS forecast zones and counties
+
+<Callout type="info">
+  Weather MCP caches alerts for 5 minutes. For rapidly evolving situations, Claude may query for fresh data automatically.
+</Callout>
+
+## Alert History
+
+This tool shows only **active** alerts. Expired or cancelled alerts are not included. To see if an alert recently expired, check the alert's expiration time.
+
+## Limitations
+
+- **US Only:** No international alert coverage
+- **NOAA Token Required:** Must have NOAA API token configured
+- **Active Alerts Only:** No historical alert data
+- **Language:** Alerts are in English only
+- **5-Minute Cache:** Very recent updates may have slight delay
+
+<Callout type="warning">
+  If you don't have a NOAA API token configured, this tool will not function. See [Installation](/docs/installation) for setup instructions.
+</Callout>
+
+## Understanding Alert Zones
+
+Weather alerts are issued for:
+- **Counties:** Administrative boundaries
+- **Forecast Zones:** Geographic areas defined by NWS
+- **Marine Zones:** Coastal and offshore waters
+
+Weather MCP automatically determines which zones cover your requested location.
+
+## Related Tools
+
+- [Get Forecast](/docs/tools/get-forecast) - Detailed weather predictions
+- [Get Current Conditions](/docs/tools/get-current-conditions) - Real-time weather
+- [Search Location](/docs/tools/search-location) - Find location coordinates
+
+## Technical Details
+
+### Caching
+Alerts are cached briefly to balance freshness with API efficiency:
+- **Cache Key:** Location (county/zone)
+- **TTL:** 300 seconds (5 minutes)
+- **Invalidation:** Automatic, or immediate on user request
+
+### Provider Behavior
+- **Primary:** NOAA NWS API
+- **Fallback:** None (alerts are NOAA-specific)
+- **Token Required:** Yes
+
+### Error Handling
+
+**"Weather alerts not available (NOAA token required)"**
+- Solution: Configure NOAA API token in Claude Desktop settings
+
+**"Location not in United States"**
+- Solution: This tool only works for US locations
+
+**"No active alerts for this location"**
+- Solution: Good news! No weather warnings are currently in effect
+
+## Best Practices
+
+1. **Check Before Travel:** Always check alerts before driving in severe weather
+2. **Monitor Updates:** For active warnings, check frequently for updates
+3. **Multiple Locations:** Check alerts for departure, route, and destination
+4. **Heed Warnings:** Take all warnings seriously and follow NWS guidance
+5. **Local Emergency:** Follow local emergency management for evacuation orders
+
+## External Resources
+
+- [NOAA Weather Alerts](https://www.weather.gov/alerts)
+- [NWS Alert Definitions](https://www.weather.gov/lwx/WarningsDefined)
+- [Emergency Management](https://www.fema.gov/)
+
+## Next Steps
+
+- [Configure NOAA API Token](/docs/installation)
+- [View Other Tools](/docs/api-reference)
+- [Troubleshooting Guide](/docs/troubleshooting)

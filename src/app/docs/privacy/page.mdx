@@ -1,0 +1,296 @@
+import { Callout } from '@/components/docs/Callout';
+
+export const metadata = {
+  title: 'Privacy & Analytics',
+  description: 'Privacy policy and analytics transparency for Weather MCP',
+};
+
+# Privacy & Analytics
+
+Weather MCP is committed to protecting your privacy while providing optional analytics to help improve the service.
+
+## Privacy First Philosophy
+
+**Analytics are completely optional and disabled by default.**
+
+- **No tracking** unless you explicitly opt in
+- **No personal data** collected
+- **No location data** stored
+- **Fully transparent** about what we collect
+- **Open source** - audit the code yourself
+
+## What We Collect (If Analytics Enabled)
+
+When you enable analytics by setting `ENABLE_ANALYTICS=true`, Weather MCP collects:
+
+### Tool Usage Statistics
+- **Tool name** (e.g., "get_forecast", "get_current_conditions")
+- **Call count** (how many times each tool is called)
+- **Success/failure status** (whether the call succeeded)
+- **Response time** (how long the request took)
+
+### Error Information
+- **Error type** (e.g., "API_ERROR", "LOCATION_NOT_FOUND")
+- **Error count** (how many times each error occurs)
+- **Affected tools** (which tools encounter which errors)
+
+### System Information
+- **Weather MCP version** (e.g., "1.2.3")
+- **Anonymous installation ID** (randomly generated UUID)
+- **Provider used** (NOAA or Open-Meteo)
+
+### Performance Metrics
+- **Cache hit rate** (how often cached data is used)
+- **Average response times** (performance metrics)
+
+<Callout type="success" title="Privacy Guarantee">
+  We never collect location searches, weather queries, coordinates, personal information, or any data that could identify you or your queries.
+</Callout>
+
+## What We DON'T Collect
+
+The following are **never** collected:
+
+- ❌ Location names or coordinates you search
+- ❌ Weather data requests or responses
+- ❌ IP addresses
+- ❌ User identifiers (beyond anonymous installation ID)
+- ❌ Timestamps precise enough to track usage patterns
+- ❌ Claude conversation content
+- ❌ Personal information of any kind
+
+## How Analytics Help
+
+The anonymous analytics data helps us:
+
+1. **Identify Popular Features** - Know which tools are most used
+2. **Detect Problems** - Find error patterns to fix
+3. **Improve Performance** - Optimize slow operations
+4. **Plan Development** - Prioritize new features
+5. **Ensure Reliability** - Monitor success rates
+
+## Enabling Analytics
+
+To enable analytics, add to your Claude Desktop configuration:
+
+```json
+{
+  "mcpServers": {
+    "weather": {
+      "command": "weather-mcp",
+      "env": {
+        "ENABLE_ANALYTICS": "true"
+      }
+    }
+  }
+}
+```
+
+<Callout type="info">
+  You must restart Claude Desktop after changing the configuration.
+</Callout>
+
+## Disabling Analytics
+
+Analytics are disabled by default. To ensure they're disabled:
+
+1. Remove `ENABLE_ANALYTICS` from your configuration, or
+2. Set `ENABLE_ANALYTICS: "false"`
+
+Changes take effect after restarting Claude Desktop.
+
+## Data Transmission
+
+### How Data is Sent
+- **Batched:** Events are collected and sent in batches
+- **Async:** Never blocks weather requests
+- **Encrypted:** HTTPS for all transmissions
+- **Reliable:** Queued if network unavailable
+
+### Where Data Goes
+- **Analytics Server:** `analytics.weather-mcp.dev`
+- **Storage:** Aggregated in anonymized databases
+- **Access:** Only Weather MCP maintainers
+
+### Data Retention
+- **Raw Events:** 90 days
+- **Aggregated Statistics:** Indefinitely
+- **Installation IDs:** Stored but not linked to users
+
+## Public Analytics Dashboard
+
+All analytics data is publicly available at:
+
+**[weather-mcp.dev/dashboard](/dashboard)**
+
+You can see:
+- Total API calls
+- Success rates
+- Popular tools
+- Performance metrics
+- Error rates
+
+<Callout type="info" title="Full Transparency">
+  We believe in transparency. All analytics data we collect is publicly viewable on the dashboard.
+</Callout>
+
+## Technical Implementation
+
+### Installation ID
+
+When analytics are enabled, Weather MCP generates a random UUID on first run:
+
+```
+Installation ID: 550e8400-e29b-41d4-a716-446655440000
+```
+
+This ID:
+- **Is random** (not based on any user data)
+- **Is local** (stored on your machine only)
+- **Cannot identify you** (no personal information)
+- **Allows deduplication** (counts unique installations)
+
+### Data Schema
+
+Example analytics event:
+
+```json
+{
+  "installation_id": "550e8400-e29b-41d4-a716-446655440000",
+  "version": "1.2.3",
+  "event_type": "tool_call",
+  "tool_name": "get_forecast",
+  "success": true,
+  "response_time_ms": 423,
+  "provider": "noaa",
+  "error_type": null,
+  "timestamp": "2025-11-12T12:00:00Z"
+}
+```
+
+Notice what's **NOT** included:
+- No location data
+- No weather query details
+- No user identification
+- No precise timing
+
+## Compliance
+
+### GDPR (EU)
+- **Consent:** Analytics are opt-in
+- **Right to Access:** Email us for your installation ID's data
+- **Right to Deletion:** Email us to delete your installation ID
+- **Data Minimization:** We collect only essential metrics
+
+### CCPA (California)
+- **Do Not Sell:** We never sell data
+- **Disclosure:** This page discloses all collection
+- **Deletion Rights:** Email us to delete your data
+
+### Privacy Laws
+Weather MCP complies with:
+- GDPR (EU)
+- CCPA (California)
+- PIPEDA (Canada)
+- Privacy Shield
+- Other major privacy regulations
+
+<Callout type="success">
+  Even with analytics enabled, Weather MCP is designed to be privacy-compliant worldwide.
+</Callout>
+
+## Third-Party Services
+
+Weather MCP uses these external services:
+
+### NOAA (weather.gov)
+- **Purpose:** Weather data for US locations
+- **Data Sent:** Location coordinates only
+- **Privacy:** [NOAA Privacy Policy](https://www.weather.gov/privacy)
+
+### Open-Meteo (open-meteo.com)
+- **Purpose:** Weather data for worldwide locations
+- **Data Sent:** Location coordinates only
+- **Privacy:** [Open-Meteo Privacy](https://open-meteo.com/en/terms)
+
+### OpenStreetMap Nominatim (nominatim.openstreetmap.org)
+- **Purpose:** Location search/geocoding
+- **Data Sent:** Location name queries
+- **Privacy:** [OSM Privacy](https://wiki.osmfoundation.org/wiki/Privacy_Policy)
+
+<Callout type="info">
+  Weather providers receive only the location coordinates needed to fetch weather data. They do not know you're using Weather MCP or Claude.
+</Callout>
+
+## Open Source Transparency
+
+Weather MCP is fully open source:
+- **Code:** [github.com/dgahagan/weather-mcp](https://github.com/dgahagan/weather-mcp)
+- **Audit:** Review the code yourself
+- **Contributions:** Help improve privacy
+
+You can verify:
+- What data is collected
+- How it's transmitted
+- Where it goes
+- How it's used
+
+## Security
+
+### Data Security
+- **Encryption:** TLS 1.3 for all transmissions
+- **Storage:** Encrypted at rest
+- **Access:** Limited to maintainers only
+- **Monitoring:** Intrusion detection active
+
+### Code Security
+- **Dependencies:** Regularly updated
+- **Vulnerabilities:** Promptly patched
+- **Audits:** Open to security review
+
+## Your Rights
+
+You have the right to:
+1. **Know** what data is collected (see above)
+2. **Choose** whether to enable analytics
+3. **Access** your installation's analytics data
+4. **Delete** your installation's data
+5. **Object** to processing (by disabling analytics)
+
+## Contact
+
+For privacy questions, data requests, or concerns:
+
+- **Email:** privacy@weather-mcp.dev (if available)
+- **GitHub:** [Open an issue](https://github.com/dgahagan/weather-mcp/issues)
+
+We'll respond within 72 hours.
+
+## Changes to This Policy
+
+We may update this privacy policy. Changes will be:
+- **Documented** in the changelog
+- **Announced** in release notes
+- **Effective** on the date posted
+
+Last updated: 2025-11-12
+
+## Summary
+
+**TL;DR:**
+- Analytics are **optional** (disabled by default)
+- We collect **only** anonymous usage statistics
+- We **never** collect location searches or personal data
+- Everything we collect is **publicly viewable** on the dashboard
+- You can **opt out** anytime by disabling analytics
+- Weather MCP is **open source** - audit it yourself
+
+<Callout type="success" title="Questions?">
+  If you have any questions about privacy or analytics, please open an issue on GitHub or check our FAQ.
+</Callout>
+
+## Next Steps
+
+- [View Public Analytics Dashboard](/dashboard)
+- [Configure Weather MCP](/docs/configuration)
+- [Report Privacy Concerns](https://github.com/dgahagan/weather-mcp/issues)
