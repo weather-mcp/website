@@ -38,12 +38,13 @@ function generateBreadcrumbs(pathname: string): Breadcrumb[] {
 
 export function Breadcrumbs() {
   const pathname = usePathname();
-  const breadcrumbs = generateBreadcrumbs(pathname);
 
-  // Don't show breadcrumbs on homepage
-  if (pathname === '/') {
+  // Don't show breadcrumbs on homepage or if pathname is null
+  if (!pathname || pathname === '/') {
     return null;
   }
+
+  const breadcrumbs = generateBreadcrumbs(pathname);
 
   return (
     <nav aria-label="Breadcrumb" className="mb-6">
