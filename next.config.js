@@ -48,14 +48,18 @@ const nextConfig = {
             value: 'strict-origin-when-cross-origin',
           },
           {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
+          },
+          {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-              "style-src 'self' 'unsafe-inline'",
+              "script-src 'self'",
+              "style-src 'self'",
               "img-src 'self' data: https:",
               "font-src 'self' data:",
-              "connect-src 'self' https://analytics.weather-mcp.dev http://localhost:3100",
+              "connect-src 'self' https://analytics.weather-mcp.dev" + (process.env.NODE_ENV === 'development' ? " http://localhost:3100" : ""),
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'"
