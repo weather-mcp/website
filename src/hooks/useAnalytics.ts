@@ -19,7 +19,7 @@ export function useAnalytics(
   } = options;
 
   const { data, error, isLoading, mutate } = useSWR<AnalyticsData>(
-    `/stats/overview?period=${timeRange}`,
+    `/stats/all?period=${timeRange}`,
     fetcher,
     {
       refreshInterval,
