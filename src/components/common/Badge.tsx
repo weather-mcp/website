@@ -5,13 +5,15 @@ export interface BadgeProps {
   variant?: 'primary' | 'secondary' | 'error' | 'success' | 'neutral';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
+  'data-testid'?: string;
 }
 
 export function Badge({
   children,
   variant = 'neutral',
   size = 'md',
-  className = ''
+  className = '',
+  'data-testid': dataTestId,
 }: BadgeProps) {
   const variantStyles = {
     primary: 'bg-primary-100 text-primary-700 border-primary-200',
@@ -29,6 +31,7 @@ export function Badge({
 
   return (
     <span
+      data-testid={dataTestId}
       className={`
         inline-flex items-center font-medium rounded-full border
         ${variantStyles[variant]}

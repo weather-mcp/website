@@ -82,7 +82,7 @@ export function ServiceDistribution({ distribution }: ServiceDistributionProps) 
               {distribution.noaa.calls.toLocaleString()}
             </div>
             <div className="text-xs text-neutral-600">
-              {distribution.noaa.success_rate.toFixed(1)}% success rate
+              {(distribution.noaa.success_rate * 100).toFixed(1)}% success rate
             </div>
           </div>
         </div>
@@ -97,7 +97,7 @@ export function ServiceDistribution({ distribution }: ServiceDistributionProps) 
               {distribution.openMeteo.calls.toLocaleString()}
             </div>
             <div className="text-xs text-neutral-600">
-              {distribution.openMeteo.success_rate.toFixed(1)}% success rate
+              {(distribution.openMeteo.success_rate * 100).toFixed(1)}% success rate
             </div>
           </div>
         </div>
