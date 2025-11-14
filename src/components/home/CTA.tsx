@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/common/Button';
 
 export function CTA() {
   return (
@@ -16,22 +15,18 @@ export function CTA() {
 
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/docs/getting-started">
-              <Button size="lg" className="bg-white text-primary-600 hover:bg-primary-50 w-full sm:w-auto">
+              <button className="px-6 py-3 text-lg font-medium rounded-lg bg-white text-primary-600 hover:bg-primary-50 active:bg-primary-100 transition-colors duration-200 w-full sm:w-auto">
                 Get Started
-              </Button>
+              </button>
             </Link>
             <a
               href="https://github.com/dgahagan/weather-mcp"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-white text-white hover:bg-primary-700 w-full sm:w-auto"
-              >
+              <button className="px-6 py-3 text-lg font-medium rounded-lg border-2 border-white text-white hover:bg-primary-700 active:bg-primary-800 transition-colors duration-200 w-full sm:w-auto">
                 View on GitHub
-              </Button>
+              </button>
             </a>
           </div>
 

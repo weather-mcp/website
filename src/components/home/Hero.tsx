@@ -4,17 +4,17 @@ import { Button } from '@/components/common/Button';
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-primary-50 to-white py-20 sm:py-32">
+    <section className="relative overflow-hidden bg-gradient-to-b from-primary-50 to-white dark:from-neutral-900 dark:to-neutral-800 py-20 sm:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           {/* Headline */}
-          <h1 className="text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl md:text-6xl animate-fade-in">
+          <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-5xl md:text-6xl animate-fade-in">
             Access Real-World Weather Data in{' '}
-            <span className="text-primary-600">Claude Desktop</span>
+            <span className="text-primary-600 dark:text-primary-400">Claude Desktop</span>
           </h1>
 
           {/* Subheadline */}
-          <p className="mt-6 text-lg leading-8 text-neutral-600 sm:text-xl animate-slide-up">
+          <p className="mt-6 text-lg leading-8 text-neutral-600 dark:text-neutral-400 sm:text-xl animate-slide-up">
             MCP server providing forecasts, alerts, and current conditions from NOAA and Open-Meteo
           </p>
 
@@ -33,7 +33,7 @@ export function Hero() {
           </div>
 
           {/* Trust Indicators */}
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-neutral-600 animate-fade-in">
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-neutral-600 dark:text-neutral-400 animate-fade-in">
             <div className="flex items-center gap-2">
               <svg
                 className="h-5 w-5 text-accent-500"
@@ -83,7 +83,7 @@ export function Hero() {
       {/* Decorative background elements */}
       <div className="absolute inset-x-0 top-0 -z-10 transform-gpu overflow-hidden blur-3xl">
         <div
-          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary-200 to-secondary-200 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary-200 to-secondary-200 dark:from-primary-800 dark:to-secondary-800 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
           style={{
             clipPath:
               'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',

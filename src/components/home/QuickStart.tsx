@@ -26,14 +26,14 @@ export function QuickStart() {
   };
 
   return (
-    <section className="py-20 sm:py-32 bg-neutral-50">
+    <section className="py-20 sm:py-32 bg-neutral-50 dark:bg-neutral-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
+            <h2 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-4xl">
               Get Started in Minutes
             </h2>
-            <p className="mt-4 text-lg text-neutral-600">
+            <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
               Follow these simple steps to integrate Weather MCP with Claude Desktop
             </p>
           </div>
@@ -47,16 +47,16 @@ export function QuickStart() {
                 </div>
               </div>
               <div className="flex-grow">
-                <h3 className="text-lg font-semibold text-neutral-900">
+                <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
                   Get a NOAA API Token
                 </h3>
-                <p className="mt-2 text-neutral-600">
+                <p className="mt-2 text-neutral-600 dark:text-neutral-400">
                   Register for a free API token at{' '}
                   <a
                     href="https://www.weather.gov/documentation/services-web-api"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary-600 hover:text-primary-700 underline"
+                    className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 underline"
                   >
                     weather.gov
                   </a>
@@ -72,10 +72,10 @@ export function QuickStart() {
                 </div>
               </div>
               <div className="flex-grow">
-                <h3 className="text-lg font-semibold text-neutral-900">
+                <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
                   Configure Claude Desktop
                 </h3>
-                <p className="mt-2 text-neutral-600">
+                <p className="mt-2 text-neutral-600 dark:text-neutral-400">
                   Add this to your Claude Desktop configuration file:
                 </p>
                 <div className="mt-4 relative">
@@ -100,14 +100,14 @@ export function QuickStart() {
                 </div>
               </div>
               <div className="flex-grow">
-                <h3 className="text-lg font-semibold text-neutral-900">
+                <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
                   Start Using Weather Tools
                 </h3>
-                <p className="mt-2 text-neutral-600">
+                <p className="mt-2 text-neutral-600 dark:text-neutral-400">
                   Restart Claude Desktop and try asking:
                 </p>
-                <div className="mt-4 bg-primary-50 border border-primary-200 rounded-lg p-4">
-                  <p className="text-primary-900 font-medium italic">
+                <div className="mt-4 bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-lg p-4">
+                  <p className="text-primary-900 dark:text-primary-200 font-medium italic">
                     "What's the weather forecast for Seattle this week?"
                   </p>
                 </div>
