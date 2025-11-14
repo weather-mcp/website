@@ -34,8 +34,8 @@ export function Navigation() {
             px-3 py-2 rounded-md text-sm font-medium transition-colors
             ${
               isActive(item.href)
-                ? 'text-primary-600 bg-primary-50'
-                : 'text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100'
+                ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20'
+                : 'text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800'
             }
           `}
         >
@@ -48,7 +48,7 @@ export function Navigation() {
           href="https://github.com/dgahagan/weather-mcp"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-neutral-700 hover:text-neutral-900 transition-colors"
+          className="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           aria-label="GitHub repository"
         >
           <svg
