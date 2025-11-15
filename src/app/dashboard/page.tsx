@@ -208,14 +208,14 @@ export default function Dashboard() {
   if (error) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-error-50 border border-error-200 rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-error-900 mb-2">
+        <div className="bg-error-50 dark:bg-error-900/20 border border-error-200 dark:border-error-800 rounded-lg p-6">
+          <h2 className="text-lg font-semibold text-error-900 dark:text-error-100 mb-2">
             Failed to Load Analytics
           </h2>
-          <p className="text-error-700">
+          <p className="text-error-700 dark:text-error-200">
             Unable to fetch analytics data. The analytics API may be unavailable.
           </p>
-          <p className="text-sm text-error-600 mt-2">
+          <p className="text-sm text-error-600 dark:text-error-300 mt-2">
             Showing mock data for demonstration purposes.
           </p>
         </div>
@@ -228,8 +228,8 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
         <div>
-          <h1 className="text-4xl font-bold text-neutral-900">Analytics Dashboard</h1>
-          <p className="mt-2 text-lg text-neutral-600">
+          <h1 className="text-4xl font-bold text-neutral-900 dark:text-neutral-100">Analytics Dashboard</h1>
+          <p className="mt-2 text-lg text-neutral-600 dark:text-neutral-400">
             Real-time insights into Weather MCP usage and performance
           </p>
         </div>
@@ -240,14 +240,14 @@ export default function Dashboard() {
 
       {/* Mock Data Warning Banner */}
       {usingMockData && !error && (
-        <div className="mb-8 bg-warning-50 border border-warning-200 rounded-lg p-4">
+        <div className="mb-8 bg-warning-50 dark:bg-warning-900/20 border border-warning-200 dark:border-warning-800 rounded-lg p-4">
           <div className="flex items-start gap-3">
-            <svg className="w-5 h-5 text-warning-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 text-warning-600 dark:text-warning-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
             <div>
-              <h3 className="text-sm font-semibold text-warning-900">Displaying Mock Data</h3>
-              <p className="text-sm text-warning-700 mt-1">
+              <h3 className="text-sm font-semibold text-warning-900 dark:text-warning-100">Displaying Mock Data</h3>
+              <p className="text-sm text-warning-700 dark:text-warning-200 mt-1">
                 The analytics API is unavailable or returned no data. Showing demonstration data for preview purposes.
               </p>
             </div>

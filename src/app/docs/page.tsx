@@ -34,10 +34,10 @@ const docSections = [
 export default function Docs() {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-4xl font-bold text-neutral-900 mb-4">
+      <h1 className="text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
         Documentation
       </h1>
-      <p className="text-lg text-neutral-600 mb-12">
+      <p className="text-lg text-neutral-600 dark:text-neutral-400 mb-12">
         Everything you need to know about Weather MCP
       </p>
 
@@ -45,10 +45,10 @@ export default function Docs() {
         {docSections.map((section) => (
           <Link key={section.href} href={section.href}>
             <Card hover padding="md" className="h-full">
-              <h2 className="text-xl font-semibold text-neutral-900 mb-2">
+              <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
                 {section.title}
               </h2>
-              <p className="text-neutral-600">{section.description}</p>
+              <p className="text-neutral-600 dark:text-neutral-400">{section.description}</p>
             </Card>
           </Link>
         ))}

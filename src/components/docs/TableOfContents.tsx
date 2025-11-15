@@ -49,7 +49,7 @@ export function TableOfContents() {
   return (
     <nav className="w-64 flex-shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto custom-scrollbar hidden xl:block">
       <div className="p-6">
-        <h2 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">
+        <h2 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
           On This Page
         </h2>
         <ul className="space-y-2 text-sm">
@@ -62,8 +62,8 @@ export function TableOfContents() {
                 href={`#${heading.id}`}
                 className={`block py-1 transition-colors border-l-2 pl-3 ${
                   activeId === heading.id
-                    ? 'border-primary-500 text-primary-600 font-medium'
-                    : 'border-transparent text-neutral-600 hover:text-neutral-900 hover:border-neutral-300'
+                    ? 'border-primary-500 dark:border-primary-400 text-primary-600 dark:text-primary-400 font-medium'
+                    : 'border-transparent text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:border-neutral-300 dark:hover:border-neutral-700'
                 }`}
                 onClick={(e) => {
                   e.preventDefault();

@@ -9,37 +9,37 @@ export const metadata: Metadata = {
 export default function GettingStarted() {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-4xl">
-      <h1 className="text-4xl font-bold text-neutral-900 mb-8">
+      <h1 className="text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-8">
         Getting Started
       </h1>
 
       <div className="prose prose-neutral max-w-none">
-        <p className="text-lg text-neutral-600 mb-8">
+        <p className="text-lg text-neutral-600 dark:text-neutral-400 mb-8">
           Weather MCP brings real-world weather data to Claude Desktop through the Model Context Protocol.
         </p>
 
-        <h2 className="text-2xl font-bold text-neutral-900 mt-8 mb-4">
+        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mt-8 mb-4">
           Prerequisites
         </h2>
-        <ul className="list-disc pl-6 text-neutral-700 space-y-2">
+        <ul className="list-disc pl-6 text-neutral-700 dark:text-neutral-300 space-y-2">
           <li>Claude Desktop installed</li>
           <li>Node.js 18+ (for npx)</li>
           <li>A free NOAA API token</li>
         </ul>
 
-        <h2 className="text-2xl font-bold text-neutral-900 mt-8 mb-4">
+        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mt-8 mb-4">
           Quick Installation
         </h2>
-        <ol className="list-decimal pl-6 text-neutral-700 space-y-4">
+        <ol className="list-decimal pl-6 text-neutral-700 dark:text-neutral-300 space-y-4">
           <li>
-            <strong>Get a NOAA API token</strong>
+            <strong className="dark:text-neutral-200">Get a NOAA API token</strong>
             <p className="mt-2">
               Visit{' '}
               <a
                 href="https://www.weather.gov/documentation/services-web-api"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary-600 hover:text-primary-700 underline"
+                className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 underline"
               >
                 weather.gov
               </a>{' '}
@@ -47,7 +47,7 @@ export default function GettingStarted() {
             </p>
           </li>
           <li>
-            <strong>Configure Claude Desktop</strong>
+            <strong className="dark:text-neutral-200">Configure Claude Desktop</strong>
             <p className="mt-2">
               Add the following to your Claude Desktop configuration file:
             </p>
@@ -66,24 +66,24 @@ export default function GettingStarted() {
             </pre>
           </li>
           <li>
-            <strong>Restart Claude Desktop</strong>
+            <strong className="dark:text-neutral-200">Restart Claude Desktop</strong>
             <p className="mt-2">
               Completely quit and restart Claude Desktop to load the new MCP server.
             </p>
           </li>
           <li>
-            <strong>Try it out!</strong>
+            <strong className="dark:text-neutral-200">Try it out!</strong>
             <p className="mt-2">
               Ask Claude: "What's the weather forecast for Seattle this week?"
             </p>
           </li>
         </ol>
 
-        <div className="bg-primary-50 border border-primary-200 rounded-lg p-6 mt-8">
-          <h3 className="text-lg font-semibold text-primary-900 mb-2">
+        <div className="bg-primary-50 dark:bg-neutral-800/50 border border-primary-200 dark:border-neutral-700 rounded-lg p-6 mt-8">
+          <h3 className="text-lg font-semibold text-primary-900 dark:text-neutral-100 mb-2">
             Next Steps
           </h3>
-          <p className="text-primary-800">
+          <p className="text-primary-800 dark:text-neutral-200">
             Check out the full documentation to learn about all available tools, configuration options, and advanced features.
           </p>
         </div>

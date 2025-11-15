@@ -198,10 +198,10 @@ export default function Examples() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-12">
-          <h1 className="text-4xl font-bold text-neutral-900 mb-4">
+          <h1 className="text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
             Examples
           </h1>
-          <p className="text-lg text-neutral-600 max-w-3xl">
+          <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl">
             Explore practical examples of how to use Weather MCP with Claude Desktop.
             These examples cover common use cases from simple weather checks to complex planning scenarios.
           </p>
@@ -209,26 +209,26 @@ export default function Examples() {
 
         {/* Categories */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-neutral-900 mb-4">
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
             Example Categories
           </h2>
           <div className="flex flex-wrap gap-3">
-            <span className="px-4 py-2 bg-primary-100 text-primary-700 rounded-lg font-medium">
+            <span className="px-4 py-2 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-lg font-medium">
               All Examples
             </span>
-            <span className="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 cursor-pointer transition-colors">
+            <span className="px-4 py-2 bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors">
               Basic
             </span>
-            <span className="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 cursor-pointer transition-colors">
+            <span className="px-4 py-2 bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors">
               Planning
             </span>
-            <span className="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 cursor-pointer transition-colors">
+            <span className="px-4 py-2 bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors">
               Travel
             </span>
-            <span className="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 cursor-pointer transition-colors">
+            <span className="px-4 py-2 bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors">
               Recreation
             </span>
-            <span className="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 cursor-pointer transition-colors">
+            <span className="px-4 py-2 bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-colors">
               Safety
             </span>
           </div>
@@ -242,37 +242,37 @@ export default function Examples() {
         </div>
 
         {/* Tips Section */}
-        <div className="mt-16 bg-primary-50 border border-primary-200 rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-neutral-900 mb-4">
+        <div className="mt-16 bg-primary-50 dark:bg-neutral-800/50 border border-primary-200 dark:border-neutral-700 rounded-lg p-8">
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
             💡 Tips for Best Results
           </h2>
-          <ul className="space-y-3 text-neutral-700">
+          <ul className="space-y-3 text-neutral-700 dark:text-neutral-200">
             <li className="flex items-start gap-3">
-              <span className="text-primary-600 font-bold">•</span>
+              <span className="text-primary-600 dark:text-primary-400 font-bold">•</span>
               <span>
                 <strong>Be specific with locations:</strong> Include city and state/country for best results
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-primary-600 font-bold">•</span>
+              <span className="text-primary-600 dark:text-primary-400 font-bold">•</span>
               <span>
                 <strong>Ask naturally:</strong> Claude understands conversational requests
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-primary-600 font-bold">•</span>
+              <span className="text-primary-600 dark:text-primary-400 font-bold">•</span>
               <span>
                 <strong>Multiple locations:</strong> You can ask about several places at once
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-primary-600 font-bold">•</span>
+              <span className="text-primary-600 dark:text-primary-400 font-bold">•</span>
               <span>
                 <strong>Time ranges:</strong> Specify "today," "tomorrow," "this week," etc.
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-primary-600 font-bold">•</span>
+              <span className="text-primary-600 dark:text-primary-400 font-bold">•</span>
               <span>
                 <strong>Follow-up questions:</strong> Claude remembers context, so you can ask follow-ups
               </span>
@@ -282,10 +282,10 @@ export default function Examples() {
 
         {/* Call to Action */}
         <div className="mt-12 text-center">
-          <h2 className="text-2xl font-bold text-neutral-900 mb-4">
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
             Ready to Get Started?
           </h2>
-          <p className="text-neutral-600 mb-6">
+          <p className="text-neutral-600 dark:text-neutral-400 mb-6">
             Install Weather MCP and start using these examples with Claude Desktop
           </p>
           <div className="flex gap-4 justify-center">
@@ -297,7 +297,7 @@ export default function Examples() {
             </a>
             <a
               href="/docs/api-reference"
-              className="px-6 py-3 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition-colors font-medium"
+              className="px-6 py-3 bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors font-medium"
             >
               API Reference
             </a>

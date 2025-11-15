@@ -13,11 +13,11 @@ export function ErrorSummary({ errors }: ErrorSummaryProps) {
   if (!errors || errors.length === 0) {
     return (
       <Card padding="md">
-        <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+        <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
           Error Summary
         </h3>
         <div className="text-center py-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-secondary-100 text-secondary-600 mb-3">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-secondary-100 dark:bg-secondary-900/20 text-secondary-600 dark:text-secondary-400 mb-3">
             <svg
               className="w-6 h-6"
               fill="none"
@@ -32,7 +32,7 @@ export function ErrorSummary({ errors }: ErrorSummaryProps) {
               />
             </svg>
           </div>
-          <p className="text-neutral-600">No errors in this time period</p>
+          <p className="text-neutral-600 dark:text-neutral-400">No errors in this time period</p>
         </div>
       </Card>
     );
@@ -40,18 +40,18 @@ export function ErrorSummary({ errors }: ErrorSummaryProps) {
 
   return (
     <Card padding="md">
-      <h3 className="text-lg font-semibold text-neutral-900 mb-4">
+      <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
         Error Summary
       </h3>
       <div className="space-y-3">
         {errors.map((error) => (
           <div
             key={error.type}
-            className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg border border-neutral-200"
+            className="flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg border border-neutral-200 dark:border-neutral-700"
           >
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <span className="font-medium text-neutral-900">{error.type}</span>
+                <span className="font-medium text-neutral-900 dark:text-neutral-100">{error.type}</span>
                 <Badge variant="error" size="sm">
                   {error.count}
                 </Badge>
@@ -65,7 +65,7 @@ export function ErrorSummary({ errors }: ErrorSummaryProps) {
               </div>
             </div>
             <div className="ml-4 text-right">
-              <div className="text-lg font-semibold text-error-600">
+              <div className="text-lg font-semibold text-error-600 dark:text-error-400">
                 {error.percentage.toFixed(1)}%
               </div>
             </div>

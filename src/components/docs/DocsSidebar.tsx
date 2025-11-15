@@ -64,11 +64,11 @@ export function DocsSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 flex-shrink-0 border-r border-neutral-200 bg-neutral-50 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto custom-scrollbar">
+    <aside className="w-64 flex-shrink-0 border-r border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto custom-scrollbar">
       <nav className="p-6 space-y-8" aria-label="Documentation navigation">
         {docSections.map((section) => (
           <div key={section.title}>
-            <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">
+            <h3 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
               {section.title}
             </h3>
             <ul className="space-y-1">
@@ -82,8 +82,8 @@ export function DocsSidebar() {
                       href={link.href}
                       className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
                         isActive
-                          ? 'bg-primary-100 text-primary-700 font-medium'
-                          : 'text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900'
+                          ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 font-medium'
+                          : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100'
                       }`}
                       aria-current={isActive ? 'page' : undefined}
                     >

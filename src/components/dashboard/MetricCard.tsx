@@ -85,9 +85,9 @@ export function MetricCard({ title, value, trend, icon }: MetricCardProps) {
     <Card hover padding="md" data-testid="overview-card">
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-sm font-medium text-neutral-600">{title}</p>
+          <p className="text-sm font-medium text-neutral-600 dark:text-neutral-400">{title}</p>
           <p
-            className={`mt-2 text-3xl font-bold text-neutral-900 transition-all duration-500 ${
+            className={`mt-2 text-3xl font-bold text-neutral-900 dark:text-neutral-100 transition-all duration-500 ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
             }`}
           >
@@ -99,10 +99,10 @@ export function MetricCard({ title, value, trend, icon }: MetricCardProps) {
               <span
                 className={`text-sm font-medium ${
                   trend.direction === 'up'
-                    ? 'text-secondary-600'
+                    ? 'text-secondary-600 dark:text-secondary-400'
                     : trend.direction === 'down'
-                    ? 'text-error-600'
-                    : 'text-neutral-600'
+                    ? 'text-error-600 dark:text-error-400'
+                    : 'text-neutral-600 dark:text-neutral-400'
                 }`}
               >
                 {trend.direction === 'up' ? '+' : ''}
@@ -112,7 +112,7 @@ export function MetricCard({ title, value, trend, icon }: MetricCardProps) {
           )}
         </div>
         {icon && (
-          <div className="ml-4 rounded-lg bg-primary-50 p-3 text-primary-600">
+          <div className="ml-4 rounded-lg bg-primary-50 dark:bg-primary-900/20 p-3 text-primary-600 dark:text-primary-400">
             {icon}
           </div>
         )}

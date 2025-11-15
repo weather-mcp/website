@@ -28,16 +28,16 @@ export function ExampleCard({
   return (
     <Card padding="md" className="h-full flex flex-col">
       <div className="flex items-start justify-between mb-3">
-        <h3 className="text-xl font-semibold text-neutral-900">{title}</h3>
+        <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">{title}</h3>
         <Badge className={difficultyColors[difficulty]}>
           {difficulty}
         </Badge>
       </div>
 
-      <p className="text-neutral-600 mb-4">{description}</p>
+      <p className="text-neutral-600 dark:text-neutral-400 mb-4">{description}</p>
 
       <div className="mb-4">
-        <span className="text-sm font-medium text-neutral-700">Tools used:</span>
+        <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Tools used:</span>
         <div className="flex flex-wrap gap-2 mt-2">
           {tools.map((tool) => (
             <Badge key={tool} variant="neutral">
