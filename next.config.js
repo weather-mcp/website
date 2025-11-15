@@ -25,54 +25,10 @@ const nextConfig = {
     domains: ['weather-mcp.dev'],
   },
 
-  // Security headers
+  // Cache headers for static assets
+  // Note: Security headers (CSP, X-Frame-Options, etc.) are now set in middleware.ts
   async headers() {
     return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains; preload',
-          },
-          {
-            key: 'Content-Security-Policy',
-            value: [
-              "default-src 'self'",
-              process.env.NODE_ENV === 'development'
-                ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-                : "script-src 'self' 'sha256-xzcjmrmE1BNN0ZD7ZXb/YHGQkw/Rw8YTKvG41S3R6V4='",
-              "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: https:",
-              "font-src 'self' data:",
-              "connect-src 'self' https://analytics.weather-mcp.dev" + (process.env.NODE_ENV === 'development' ? " http://localhost:3100" : ""),
-              "frame-ancestors 'none'",
-              "base-uri 'self'",
-              "form-action 'self'"
-            ].join('; ')
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()'
-          },
-        ],
-      },
       {
         source: '/public/:path*',
         headers: [
