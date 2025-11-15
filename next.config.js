@@ -57,7 +57,7 @@ const nextConfig = {
               "default-src 'self'",
               process.env.NODE_ENV === 'development'
                 ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-                : "script-src 'self' 'sha256-rbbnijHn7DZ6ps39myQ3cVQF1H+U/PJfHh5ei/Q2kb8='",
+                : "script-src 'self' 'sha256-xzcjmrmE1BNN0ZD7ZXb/YHGQkw/Rw8YTKvG41S3R6V4='",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https:",
               "font-src 'self' data:",
